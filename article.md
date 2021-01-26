@@ -16,7 +16,7 @@ Fundamentally, we need three things to build our AR app:
 2. a video (it could be your device's camera, or a video/image), and
 3. a way to draw 3D graphics on the video. (in our case, it's three.js!)
 
-### The Different Types of AR Markers
+### 1. (The Different Types of) AR Markers
 ARTK.js comes with support for multiple kinds of markers. Note that the markers that ARTK can track are flat images.
 
 #### Pattern markers
@@ -49,19 +49,26 @@ arController.addEventListener('getMarker', function(ev) {
 
 
 #### Multi-marker tracking
-This is a combination of square image markers and barcode markers. With `loadMultiMarker` you have s
+This is a combination of square image markers and barcode markers. With `loadMultiMarker`, we can have several markers printed on a single flat surface, which lets you track the surface even if some of the markers are not visible. 
+Another advantage is that you can put small markers around a non-marker content and for the non-marker to behave like a marker. For example, if we have a map printed on a piece of paper and have small markers printed around it, you can place your AR content on top of the map and it'll work as long as any of the multimarker images are visible.
+```javascript
+//load multiMarker
+arController.loadMultiMarker('patterns/multi-file.dat', function(markerId, markerNum) {
+    ...
+}
 
+```
 #### Which marker to use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
-### Video 
+### 2. Video 
 This can be a video or image. 
 ```javascript
 arController.getUserMedia(options)
 arController.getUserMediaThreeScene(...)
 ```
     
-### 3D graphics
+### 3, 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
 ### To load JSARToolKit and Three.js, include these two minified scripts into your webpage
@@ -71,7 +78,7 @@ Three.js is a lightweight cross-browser Javascript library/API used to create an
 ```
 
 ### Getting marker positions and identifying different markers
-Now that we have the markers, and the video set up, we're ready to start tracking the markers into the video. When the camera sees a marker, we want to know a) which marker it is, and b) its details, where it is (position, rotation, scale etc.) 
+Now that we have the markers, and the video set up, we're ready to start **tracking the markers** into the video. When the camera sees a marker, we want to know a) which marker it is, and b) its details, where it is (position, rotation, scale etc.) 
 
 We do this by adding an event listener to listen to `getMarker` events on the arController. 
 Whenever the arController detects a marker, it fires a `getMarker` event with the marker details. 
@@ -80,8 +87,24 @@ Whenever the arController detects a marker, it fires a `getMarker` event with th
 arController.addEventListener('getMarker', function(ev) {
     console.log("getMarker", ev.data.marker.id);
 }
+
+
+
 ```
 
 ### Three.js
+Now that we have the **marker positions**, we can copy these into a [Three.js object] (https://threejs.org/docs/#api/en/core/Object3D.matrix). 
+```javascript
+// markerRoot is a THREE.Object3D that tracks the marker position
+var markerRoot = arController.createThreeMultiMarker(markerId);
+
+// add markerRoot to the AR scene
+arScene.scene.add(markerRoot);
+
+```
+
+
+
+### References
 
 
