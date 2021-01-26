@@ -81,7 +81,7 @@ arController.getUserMediaThreeScene(...)
 ### 3. 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
-### :heavy_plus_sign: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
+### :heavy_plus_sign: :bulb: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
 ```javascript
 <script src="build/artoolkit.min.js"></script>
 <script src="js/artoolkit.three.js"></script>
