@@ -1,4 +1,4 @@
-# Using ARToolKit.js to make Augmented Reality applications
+# Using ARToolKit.js to make Augmented Reality web apps with Three.js
 
 ### Introduction
 
@@ -6,7 +6,7 @@
 
 According to Wikipedia, AR is an **interactive** experience of a real-world environment where the objects in the real world are enhanced by computer-generated perceptual information, sometimes across multiple senses such as sight, sound, smell, and touch. However, most of our interactions of AR applications that are widely used today are from the users and not the application. 
 
-AR is the overlay of virtual computer graphics images on the real world. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. 
+AR is the overlay of virtual computer graphics images on the real world. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. We might go into detail about it 
 
 ### The Basics
 In short, it works by tracking "special images" in your video. These "special images" are AR markers and ARToolKit can figure out where there are and what direction they are pointing at. AR markers are just images used by ARToolKit to track the 3D positions of objects in the video and images.
@@ -17,15 +17,17 @@ We need three things to build our AR app:
 3. a way to draw 3D graphics on the video. (in our case, it's three.js!) 
 
 
-### First: The Different Types of AR Markers
+### 1. The Different Types of AR Markers
 
 #### Multi-marker
 
 
-### Second: Video 
+### 2. Video 
+This can be a video or image. 
     arController.getUserMedia(options)
     arController.getUserMediaThreeScene()
-### Third: 
+    
+### 3. 3D graphics
 
 
 
