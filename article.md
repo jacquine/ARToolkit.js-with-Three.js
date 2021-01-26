@@ -24,8 +24,10 @@ We need three things to build our AR app:
 
 ### 2. Video 
 This can be a video or image. 
-    arController.getUserMedia(options)
-    arController.getUserMediaThreeScene()
+```javascript
+arController.getUserMedia(options)
+arController.getUserMediaThreeScene(...)
+```
     
 ### 3. 3D graphics
 
