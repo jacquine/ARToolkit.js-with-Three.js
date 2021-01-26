@@ -1,6 +1,6 @@
 # Using ARToolKit.js to make Augmented Reality web apps with Three.js
 
-### Introduction
+### :information_source: Introduction
 
 [ARToolKit.js](https://github.com/artoolkitx/jsartoolkit5) is an emscripten port of [ARToolKit](https://github.com/artoolkitx/artoolkit5) in Javascript. ARToolKit is an augmented reality (AR) library authored in C/C++ that allows programmers to easily develop AR applications.
 
@@ -8,7 +8,7 @@ According to Wikipedia, AR is an **interactive** experience of a real-world envi
 
 AR is the overlay of virtual computer graphics images on the real world. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. 
 
-### The Basics
+### :memo: The Basics
 In short, it works by tracking "special images" in your video. These "special images" are AR markers are nothing more than just images, or visual cues that ARToolKit can use to figure out where they are (in the video) and what direction they are pointing. By getting positions and orientations of the AR markers from ARToolKit, we can draw 3D objects on top of the video at the right places.
 
 Fundamentally, we need three things to build our AR app:
@@ -99,7 +99,6 @@ arController.addEventListener('getMarker', function(ev) {
 }
 
 
-
 ```
 
 ### Three.js
@@ -112,7 +111,7 @@ var markerRoot = arController.createThreeMultiMarker(markerId);
 arScene.scene.add(markerRoot);
 
 ```
-### Putting everything together
+### :checkered_flag: Putting everything together
 In this example, let's try placing a 3D mushroom (.gltf) on a pattern marker.
 
 ```javascript
