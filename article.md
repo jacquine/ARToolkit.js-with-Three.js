@@ -1,6 +1,6 @@
 # Using ARToolKit.js to make Augmented Reality web apps with Three.js
 
-### :information_source: Introduction
+### Introduction
 
 [ARToolKit.js](https://github.com/artoolkitx/jsartoolkit5) is an emscripten port of [ARToolKit](https://github.com/artoolkitx/artoolkit5) in Javascript. ARToolKit is an augmented reality (AR) library authored in C/C++ that allows programmers to easily develop AR applications.
 
@@ -71,12 +71,21 @@ arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, ma
 #### :question: So...which marker should we use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
-### :two: Video :cinema:
-This can be a video or image. 
+### :two: Video :video_camera:
+This can be a video or an image. 
+In our case, let's get from our device camera using `getUserMedia` API to get an URL for the device camera, and use this URL as the source for our video element. 
+
 ```javascript
-arController.getUserMedia(options)
-arController.getUserMediaThreeScene(...)
+// arController.getUserMedia(options)
+
+// in this example, we'll use .getUserMediaThreeScene()
+window.ARThreeOnLoad = function() {
+    ARController.getUserMediaThreeScene(
+}
 ```
+
+Now we have a video element that shows the device camera video feed on it. 
+The `onSuccess` callback in the `options` object gets called with a ready-to-use video element. 
     
 ### :three: 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
@@ -111,7 +120,7 @@ var markerRoot = arController.createThreeMultiMarker(markerId);
 arScene.scene.add(markerRoot);
 
 ```
-### :checkered_flag: Putting everything together
+### :computer: Putting everything together
 In this example, let's try placing a 3D mushroom (.gltf) on a pattern marker.
 
 ```javascript
