@@ -19,7 +19,7 @@ Fundamentally, we need three things to build our AR app:
 ### 1. (The Different Types of) AR Markers
 ARTK.js comes with support for multiple kinds of markers. Note that the markers that ARTK can track are flat images.
 
-#### Pattern markers
+#### :black_square_button:Pattern markers
 These markers are square images with a thick black border surrounded by a thick white border.
 If you observed other AR markers or tried making your own, you might remember that we need to have an image that is a) high-contrast and b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 180, or 270 degrees, it should look different in each angle).
 
@@ -122,7 +122,7 @@ arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
 
     var markerRoot = arController.createThreeMarker(markerId);
     
-    // renaming the IDs
+    // renaming the numbered markerId for easier referencing
     mushroomMarker[markerId] = "mushroom 1";
     
     // add gltf
