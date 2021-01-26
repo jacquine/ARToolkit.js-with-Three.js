@@ -44,7 +44,8 @@ arController.addEventListener('getMarker', function(ev) {
 ```
 
 #### Mixed-mode tracking
-With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers. 
+With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers.
+
 ```javascript
 arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR_AND_MATRIX );
 arController.addEventListener('getMarker', function(ev) {
@@ -61,8 +62,9 @@ This is a combination of square image markers and barcode markers. With `loadMul
 Another advantage is that you can put small markers around a non-marker content and for the non-marker to behave like a marker. For example, if we have a map printed on a piece of paper and have small markers printed around it, you can place your AR content on top of the map and it'll work as long as any of the multimarker images are visible.
 ```javascript
 //load multiMarker
-arController.loadMultiMarker('patterns/multi-file.dat', function(markerId, markerNum) {
+arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, markerNum) {
     ...
+    
 }
 
 ```
@@ -101,7 +103,7 @@ arController.addEventListener('getMarker', function(ev) {
 ```
 
 ### Three.js
-Now that we have the **marker positions**, we can copy these into a [Three.js object] (https://threejs.org/docs/#api/en/core/Object3D.matrix). 
+Now that we have the **marker positions**, we can copy these into a [Three.js object](https://threejs.org/docs/#api/en/core/Object3D.matrix). 
 ```javascript
 // markerRoot is a THREE.Object3D that tracks the marker position
 var markerRoot = arController.createThreeMultiMarker(markerId);
@@ -110,8 +112,41 @@ var markerRoot = arController.createThreeMultiMarker(markerId);
 arScene.scene.add(markerRoot);
 
 ```
+### Putting everything together
+In this example, let's try placing a 3D mushroom (.gltf) on a pattern marker.
 
+```javascript
+var _gltfloader = new THREE.GLTFLoader();
 
+arController.loadMarker("/patterns/marker-1.dat", function(markerId) {
+    var markerRoot = arController.createThreeMarker(markerId);
+    // renaming the IDs
+    mushroomMarker[markerId] = "mushroom 1";
+    // add gltf
+    _gltfloader.load("/mesh/mushroom.gltf", function(gltf) {
+        // create light
+        var light1 = new THREE.PointLight(0xffffff, 7.5);
+        
+        // add light
+        gltf.scene.add(light1);
+        
+        // add the scene to markerRoot
+        markerRoot.add(gltf.scene);
+    }
+    // add it to our global arScene
+    arScene.scene.add(markerRoot);
+}
+```
+
+Example code snippet (multi-marker): 
+```javascript
+arController.loadMultiMarker('patterns/multi-marker.dat', function(markerId, markerNum) {
+    var markerRoot = arController.createThreeMultiMarker(markerId);
+    
+}
+```
+
+### 
 
 ### References
 
