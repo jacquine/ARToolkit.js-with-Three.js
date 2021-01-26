@@ -1,4 +1,4 @@
-# Using ARToolKit.js to make Augmented Reality web apps with Three.js
+# Using ARToolKit.js to make AR web apps with Three.js
 
 ### Introduction
 
@@ -52,10 +52,6 @@ arController.addEventListener('getMarker', function(ev) {
     
 }
 ```
-
-
-#### :black_square_button: NFT markers
-
 
 #### :black_square_button: Multi-marker tracking
 This is a combination of square image markers and barcode markers. With `loadMultiMarker`, we can have several markers printed on a single flat surface, which lets you track the surface even if some of the markers are not visible. 
