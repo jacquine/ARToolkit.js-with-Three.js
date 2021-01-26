@@ -11,12 +11,12 @@ AR is the overlay of virtual computer graphics images on the real world. One of 
 ### The Basics
 In short, it works by tracking "special images" in your video. These "special images" are AR markers are nothing more than just images, or visual cues that ARToolKit can use to figure out where they are (in the video) and what direction they are pointing. By getting positions and orientations of the AR markers from ARToolKit, we can draw 3D objects on top of the video at the right places.
 
-Fundamentally, we need **three** things to build our AR app: 
+Fundamentally, we need three things to build our AR app:
 1. an AR marker,
 2. a video (it could be your device's camera, or a video/image), and
 3. a way to draw 3D graphics on the video. (in our case, it's three.js!)
 
-### 1. The Different Types of AR Markers
+### The Different Types of AR Markers
 ARTK.js comes with support for multiple kinds of markers. Note that the markers that ARTK can track are flat images.
 
 #### Pattern markers
@@ -54,14 +54,14 @@ This is a combination of square image markers and barcode markers. With `loadMul
 #### Which marker to use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
-### 2. Video 
+### Video 
 This can be a video or image. 
 ```javascript
 arController.getUserMedia(options)
 arController.getUserMediaThreeScene(...)
 ```
     
-### 3. 3D graphics
+### 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
 ### To load JSARToolKit and Three.js, include these two minified scripts into your webpage
@@ -69,4 +69,19 @@ Three.js is a lightweight cross-browser Javascript library/API used to create an
 <script src="build/artoolkit.min.js"></script>
 <script src="js/artoolkit.three.js"></script>
 ```
+
+### Getting marker positions and identifying different markers
+Now that we have the markers, and the video set up, we're ready to start tracking the markers into the video. When the camera sees a marker, we want to know a) which marker it is, and b) its details, where it is (position, rotation, scale etc.) 
+
+We do this by adding an event listener to listen to `getMarker` events on the arController. 
+Whenever the arController detects a marker, it fires a `getMarker` event with the marker details. 
+
+```javascript
+arController.addEventListener('getMarker', function(ev) {
+    console.log("getMarker", ev.data.marker.id);
+}
+```
+
+### Three.js
+
 
