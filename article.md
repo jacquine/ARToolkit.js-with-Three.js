@@ -16,7 +16,7 @@ Fundamentally, we need three things to build our AR app:
 2. a video (it could be your device's camera, or a video/image), and
 3. a way to draw 3D graphics on the video. (in our case, it's three.js!)
 
-### 1. (The Different Types of) AR Markers
+### :one: (The Different Types of) AR Markers
 ARTK.js comes with support for multiple kinds of markers. Note that the markers that ARTK can track are flat images.
 
 #### :black_square_button: Pattern markers
@@ -71,14 +71,14 @@ arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, ma
 #### :question: So...which marker should we use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
-### 2. Video 
+### :two: Video :cinema:
 This can be a video or image. 
 ```javascript
 arController.getUserMedia(options)
 arController.getUserMediaThreeScene(...)
 ```
     
-### 3. 3D graphics
+### :three: 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
 ### :heavy_plus_sign: :bulb: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
