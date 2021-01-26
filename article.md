@@ -118,32 +118,26 @@ In this example, let's try placing a 3D mushroom (.gltf) on a pattern marker.
 ```javascript
 var _gltfloader = new THREE.GLTFLoader();
 
-arController.loadMarker("/patterns/marker-1.dat", function(markerId) {
+arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
+
     var markerRoot = arController.createThreeMarker(markerId);
+    
     // renaming the IDs
     mushroomMarker[markerId] = "mushroom 1";
+    
     // add gltf
     _gltfloader.load("/mesh/mushroom.gltf", function(gltf) {
-        // create light
-        var light1 = new THREE.PointLight(0xffffff, 7.5);
         
-        // add light
-        gltf.scene.add(light1);
+        // configure gltf.scene, for example
+        gltf.scene.scale.set(3,3,3);
         
         // add the scene to markerRoot
         markerRoot.add(gltf.scene);
-    }
+    });
+    
     // add it to our global arScene
     arScene.scene.add(markerRoot);
-}
-```
-
-Example code snippet (multi-marker): 
-```javascript
-arController.loadMultiMarker('patterns/multi-marker.dat', function(markerId, markerNum) {
-    var markerRoot = arController.createThreeMultiMarker(markerId);
-    
-}
+});
 ```
 
 ### 
