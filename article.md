@@ -19,7 +19,7 @@ Fundamentally, we need three things to build our AR app:
 ### 1. (The Different Types of) AR Markers
 ARTK.js comes with support for multiple kinds of markers. Note that the markers that ARTK can track are flat images.
 
-#### :black_square_button:Pattern markers
+#### :black_square_button: Pattern markers
 These markers are square images with a thick black border surrounded by a thick white border.
 If you observed other AR markers or tried making your own, you might remember that we need to have an image that is a) high-contrast and b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 180, or 270 degrees, it should look different in each angle).
 
@@ -32,7 +32,7 @@ var ar = new arController(video.videoWidth, video.videoHeight, 'Data/camera_para
 
 ```
 
-#### Barcode markers
+#### :black_square_button: Barcode markers
 Barcode markers encode a number on a black-and-white marker using binary code. They don't require pre-registering and use little CPU. Think of them as low-res QR codes.
 They work like pattern markers: ARTK reads thresholded image data from the marker, converts into binary, and converts the bits into a number. 
 These are easier to use than pattern markers, all you need is to set the `arController`'s pattern detection mode to one of the barcode detection modes and check the idMatrix attribute of the marker object. 
@@ -43,7 +43,7 @@ arController.addEventListener('getMarker', function(ev) {
 }
 ```
 
-#### Mixed-mode tracking
+#### :black_square_button: Mixed-mode tracking
 With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers.
 
 ```javascript
@@ -54,10 +54,10 @@ arController.addEventListener('getMarker', function(ev) {
 ```
 
 
-#### NFT markers
+#### :black_square_button: NFT markers
 
 
-#### Multi-marker tracking
+#### :black_square_button: Multi-marker tracking
 This is a combination of square image markers and barcode markers. With `loadMultiMarker`, we can have several markers printed on a single flat surface, which lets you track the surface even if some of the markers are not visible. 
 Another advantage is that you can put small markers around a non-marker content and for the non-marker to behave like a marker. For example, if we have a map printed on a piece of paper and have small markers printed around it, you can place your AR content on top of the map and it'll work as long as any of the multimarker images are visible.
 ```javascript
@@ -68,7 +68,7 @@ arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, ma
 }
 
 ```
-#### Which marker to use?
+#### :question: So...which marker should we use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
 ### 2. Video 
