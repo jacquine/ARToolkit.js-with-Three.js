@@ -44,6 +44,14 @@ arController.addEventListener('getMarker', function(ev) {
 ```
 
 #### Mixed-mode tracking
+With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers. 
+```javascript
+arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR_AND_MATRIX );
+arController.addEventListener('getMarker', function(ev) {
+    
+}
+```
+
 
 #### NFT markers
 
@@ -68,7 +76,7 @@ arController.getUserMedia(options)
 arController.getUserMediaThreeScene(...)
 ```
     
-### 3, 3D graphics
+### 3. 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
 ### To load JSARToolKit and Three.js, include these two minified scripts into your webpage
