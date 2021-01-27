@@ -1,6 +1,6 @@
 # Using ARToolKit.js to make AR web apps with Three.js
 
-### Introduction
+## Introduction
 
 [ARToolKit.js](https://github.com/artoolkitx/jsartoolkit5) is an emscripten port of [ARToolKit](https://github.com/artoolkitx/artoolkit5) in Javascript. ARToolKit is an open-sourced augmented reality (AR) library authored in C/C++ that allows programmers to easily develop AR applications.
 
@@ -8,7 +8,7 @@ According to Wikipedia, AR is an **interactive** experience of a real-world envi
 
 AR is the overlay of virtual computer graphics images on the real environment, usually to enrich visual information or enhance visibility to users. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. 
 
-### :memo: The Basics
+## The Basics
 In short, it works by tracking "special images" in your video. These "special images" are AR markers are nothing more than just images, or visual cues that ARToolKit can use to figure out where they are (in the video) and what direction they are pointing. By getting positions and orientations of the AR markers from ARToolKit, we can draw 3D objects on top of the video at the right places.
 
 Fundamentally, we need three things to build our AR app:
@@ -67,16 +67,17 @@ arController.addEventListener('getMarker', function(ev) {
 #### :black_square_button: Multi-marker tracking
 This is a combination of square image markers and barcode markers. With `loadMultiMarker`, we can have several markers printed on a single flat surface, which lets you track the surface even if some of the markers are not visible. 
 Another advantage is that you can put small markers around a non-marker content and for the non-marker to behave like a marker. For example, if we have a map printed on a piece of paper and have small markers printed around it, you can place your AR content on top of the map and it'll work as long as any of the multimarker images are visible.
+
 ```javascript
 //load multiMarker
 arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, markerNum) {
-    ...
-    
+    console.log(markerId, markerNum);
 }
 
 ```
-#### :question: So...which marker should we use?
-Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
+
+### So...which marker should we use?
+Choosing which type of marker to use depends on your requirements. If you want to widen the field of view of users, multimarkers are great bcecause you do not have to keep all the markers in view to see the virtual content. 
 
 
 ### 2. Video 
@@ -88,7 +89,10 @@ In our case, let's get from our device camera using `getUserMedia` API to get an
 
 // in this example, we'll use .getUserMediaThreeScene()
 window.ARThreeOnLoad = function() {
-    ARController.getUserMediaThreeScene(
+    arController.getUserMediaThreeScene({
+        maxARVideoSize: 640,
+        cameraParam: "/camera_para.dat",
+    }
 }
 ```
 
@@ -99,28 +103,29 @@ The `onSuccess` callback in the `options` object gets called with a ready-to-use
 ### 3. 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
-### :heavy_plus_sign: :bulb: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
+
+## :heavy_plus_sign: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
 ```javascript
 <script src="build/artoolkit.min.js"></script>
 <script src="js/artoolkit.three.js"></script>
 ```
 
-### Getting marker positions and identifying different markers
-Now that we have the markers, and the video set up, we're ready to start **tracking the markers** into the video. When the camera sees a marker, we want to know a) which marker it is, and b) its details, where it is (position, rotation, scale etc.) 
 
-We do this by adding an event listener to listen to `getMarker` events on the arController. 
-Whenever the arController detects a marker, it fires a `getMarker` event with the marker details. 
+## Getting marker positions
+Now that we have the markers and the video set up, we're ready to start **tracking the markers** into the video. 
+
+We do this by adding an event listener to listen to `getMarker` events on the `arController`. 
+Whenever the `arController` detects a marker, it fires a `getMarker` event with the marker details. 
 
 ```javascript
 arController.addEventListener('getMarker', function(ev) {
     console.log("getMarker", ev.data.marker.id);
 }
-
-
 ```
 
-### Three.js
+## Applying marker positions to `markerRoot`
 Now that we have the **marker positions**, we can apply these to a [Three.js object](https://threejs.org/docs/#api/en/core/Object3D.matrix). 
+
 ```javascript
 // markerRoot is a THREE.Object3D that tracks the marker position
 var markerRoot = arController.createThreeMultiMarker(markerId);
@@ -129,8 +134,8 @@ var markerRoot = arController.createThreeMultiMarker(markerId);
 arScene.scene.add(markerRoot);
 
 ```
-### :computer: Putting everything together
-In this example, let's try placing a 3D mushroom (.gltf) on a pattern marker.
+
+## Example
 
 ```javascript
 var _gltfloader = new THREE.GLTFLoader();
@@ -157,8 +162,8 @@ arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
 });
 ```
 
-### 
 
-### References
+## References
+* [ARToolKit documentation](http://www.hitl.washington.edu/artoolkit/)
 
 
