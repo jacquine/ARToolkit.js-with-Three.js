@@ -28,30 +28,19 @@ b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 1
 
 The reason that we need them to be high-contrast is because ARToolKit converts these images into 16x16 black-and-white [thresholded images](https://en.wikipedia.org/wiki/Thresholding_(image_processing)#Definition). ARToolKit will first search for a black square (border), and then examine the image to determine if the image matches our registered markers. 
 
-
-It recognizes the patterns of these images, and then compares them to registered markers. If enough pixels match a registered marker, ARToolKit will tell our app that it has identified a marker. 
-
-
-Code snippet that initializes ARToolKit and loads a pattern marker: 
 ```javascript
-var video = document.querySelector('video');
-
-// this is initialized in ARToolKit
-var ar = new arController(video.videoWidth, video.videoHeight, 'Data/camera_para.dat');
-
-arController.loadMarker("patterns/my-marker.patt", function(markerId) {
-    // assign interactions/images to load on the marker
-    
-}
-
+arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR );
 ```
-
-`camera_para.dat` is a camera parameter file with the default camera properties. This file is read each time our application is started. This parameter should be sufficient for a wide range of different cameras, but you can read more about [camera calibration tecniques](http://www.hitl.washington.edu/artoolkit/documentation/usercalibration.htm) in this ARToolKit documentation.
+```
 
 #### :black_square_button: Square Barcode markers
 Barcode markers encode a number on a black-and-white marker using binary code. They don't require pre-registering and use little CPU. Think of them as low-res QR codes.
 They work like pattern markers: ARToolKit reads thresholded image data from the marker, converts into binary, and converts the bits into a number. 
-These are easier to use than pattern markers, all you need is to set the `arController`'s pattern detection mode to one of the barcode detection modes and check the idMatrix attribute of the marker object. 
+These are easier to use than pattern markers, all you need is to set the `arController`'s pattern detection mode to one of the barcode detection modes and check the idMatrix attribute of the marker object.
+
+```javascript
+arController.setPatternDetectionMode( artoolkit.AR_MATRIX_CODE_DETECTION );
+```
 
 
 #### :black_square_button: Mixed-mode tracking
@@ -59,9 +48,6 @@ With mixed-mode tracking, we can track both pattern and barcode markers. There i
 
 ```javascript
 arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR_AND_MATRIX );
-arController.addEventListener('getMarker', function(ev) {
-    
-}
 ```
 
 #### :black_square_button: Multi-marker tracking
@@ -96,6 +82,8 @@ window.ARThreeOnLoad = function() {
 }
 ```
 
+`camera_para.dat` is a camera parameter file with the default camera properties. This file is read each time our application is started. This parameter should be sufficient for a wide range of different cameras, but you can read more about [camera calibration tecniques](http://www.hitl.washington.edu/artoolkit/documentation/usercalibration.htm) in this ARToolKit documentation.
+
 Now we have a video element that shows the device camera video feed on it. 
 The `onSuccess` callback in the `options` object gets called with a ready-to-use video element. 
    
@@ -111,7 +99,7 @@ Three.js is a lightweight cross-browser Javascript library/API used to create an
 ```
 
 
-## Getting marker positions
+## Adding a `getMarker` event listener
 Now that we have the markers and the video set up, we're ready to start **tracking the markers** into the video. 
 
 We do this by adding an event listener to listen to `getMarker` events on the `arController`. 
