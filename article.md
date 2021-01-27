@@ -6,7 +6,7 @@
 
 According to Wikipedia, AR is an **interactive** experience of a real-world environment where the objects in the real world are enhanced by computer-generated perceptual information, sometimes across multiple senses such as sight, sound, smell, and touch. However, most of our interactions of AR applications that are widely used today are from the users and not the application. 
 
-AR is the overlay of virtual computer graphics images on the real world. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. 
+AR is the overlay of virtual computer graphics images or information on the real environment, usually to enrich visual information or enhance visibility to users. One of the most difficult parts of developing an AR app is precisely calculating the user's viewpoint in real time so that the virtual images are aligned with the real world. 
 
 ### :memo: The Basics
 In short, it works by tracking "special images" in your video. These "special images" are AR markers are nothing more than just images, or visual cues that ARToolKit can use to figure out where they are (in the video) and what direction they are pointing. By getting positions and orientations of the AR markers from ARToolKit, we can draw 3D objects on top of the video at the right places.
@@ -19,29 +19,32 @@ Fundamentally, we need three things to build our AR app:
 ### 1. (The Different Types of) AR Markers
 ARToolKit comes with support for multiple kinds of markers. Note that the markers that ARToolKit can track are flat images.
 
-#### :black_square_button: Pattern markers
-These markers are square images with a thick black border surrounded by a thick white border.
-If you observed other AR markers or tried making your own, you might remember that we need to have an image that is a) high-contrast and b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 180, or 270 degrees, it should look different in each angle).
+#### :black_square_button: Square Pattern markers
+These markers are square images with a thick black border, usually printed on white paper. 
 
-The reason that we need them to be high-contrast is because ARToolKit converts these markers into a 16x16 black-and-white thresholded image, and recognizes the rectangle shapes in that image. After finding the pattern (rectangular shapes) it compares them to registered markers. If enough pixels match a registered marker, ARToolKit will tell our app that it has found a marker and calculates the transformation matrix that would turn a square into 
+If you observed other AR markers or tried making your own, you might observe that we need to have an image that is 
+a) high-contrast and 
+b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 180, or 270 degrees, it should look unique in each angle).
 
-Code snippet that initializes ARTK and loads a pattern marker: 
+The reason that we need them to be high-contrast is because ARToolKit converts these images into 16x16 black-and-white [thresholded images](https://en.wikipedia.org/wiki/Thresholding_(image_processing)#Definition). It recognizes the patterns of these images, and then compares them to registered markers. If enough pixels match a registered marker, ARToolKit will tell our app that it has identified a marker.
+
+Code snippet that initializes ARToolKit and loads a pattern marker: 
 ```javascript
 var video = document.querySelector('video');
+
+// this is initialized in ARToolKit
 var ar = new arController(video.videoWidth, video.videoHeight, 'Data/camera_para.dat');
+arController.loadMarker("patterns/my-marker.patt", function(markerId) {
+    // assign interactions/images to load on the marker
+}
 
 ```
 
-#### :black_square_button: Barcode markers
+#### :black_square_button: Square Barcode markers
 Barcode markers encode a number on a black-and-white marker using binary code. They don't require pre-registering and use little CPU. Think of them as low-res QR codes.
 They work like pattern markers: ARToolKit reads thresholded image data from the marker, converts into binary, and converts the bits into a number. 
 These are easier to use than pattern markers, all you need is to set the `arController`'s pattern detection mode to one of the barcode detection modes and check the idMatrix attribute of the marker object. 
-```javascript
-arController.setPatternDetectionMode( artoolkit.AR_MATRIX_CODE_DETECTION);
-arController.addEventListener('getMarker', function(ev) {
-    console.log('saw barcode marker', ev.data.marker.idMatrix);
-}
-```
+
 
 #### :black_square_button: Mixed-mode tracking
 With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers.
