@@ -31,6 +31,7 @@ The reason that we need them to be high-contrast is because ARToolKit converts t
 
 It recognizes the patterns of these images, and then compares them to registered markers. If enough pixels match a registered marker, ARToolKit will tell our app that it has identified a marker. 
 
+
 Code snippet that initializes ARToolKit and loads a pattern marker: 
 ```javascript
 var video = document.querySelector('video');
@@ -77,6 +78,7 @@ arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, ma
 #### :question: So...which marker should we use?
 Choosing which type of marker to use depends on your requirements. If you want fast tracking and have smaller 3D assets, go with the square pattern markers. Use multimarkers for more robust tracking, and to render bigger 3D assets.
 
+
 ### 2. Video 
 This can be a video or an image. 
 In our case, let's get from our device camera using `getUserMedia` API to get an URL for the device camera, and use this URL as the source for our video element. 
@@ -92,7 +94,8 @@ window.ARThreeOnLoad = function() {
 
 Now we have a video element that shows the device camera video feed on it. 
 The `onSuccess` callback in the `options` object gets called with a ready-to-use video element. 
-    
+   
+   
 ### 3. 3D graphics
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
