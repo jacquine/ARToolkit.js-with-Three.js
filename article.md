@@ -23,7 +23,7 @@ ARToolKit comes with support for multiple kinds of markers. Note that the marker
 These markers are square images with a thick black border surrounded by a thick white border.
 If you observed other AR markers or tried making your own, you might remember that we need to have an image that is a) high-contrast and b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 180, or 270 degrees, it should look different in each angle).
 
-The reason that we need them to be high-contrast is because ARToolKit converts these markers into a 16x16 black-and-white thresholded image, and recognizes the rectangle shapes in that image. After finding the pattern (rectangular shapes) it compares them to registered markers. If enough pixels match a registered marker, ARTK will tell our app that it has found a marker and calculates the transformation matrix that would turn a square into 
+The reason that we need them to be high-contrast is because ARToolKit converts these markers into a 16x16 black-and-white thresholded image, and recognizes the rectangle shapes in that image. After finding the pattern (rectangular shapes) it compares them to registered markers. If enough pixels match a registered marker, ARToolKit will tell our app that it has found a marker and calculates the transformation matrix that would turn a square into 
 
 Code snippet that initializes ARTK and loads a pattern marker: 
 ```javascript
