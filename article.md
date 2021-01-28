@@ -31,7 +31,6 @@ The reason that we need them to be high-contrast is because ARToolKit converts t
 ```javascript
 arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR );
 ```
-```
 
 #### :black_square_button: Square Barcode markers
 Barcode markers encode a number on a black-and-white marker using binary code. They don't require pre-registering and use little CPU. Think of them as low-res QR codes.
@@ -62,9 +61,11 @@ arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, ma
 
 ```
 
-### So...which marker should we use?
-Choosing which type of marker to use depends on your requirements. If you want to widen the field of view of users, multimarkers are great bcecause you do not have to keep all the markers in view to see the virtual content. 
+Some of the benefits of multimarkers include: 
+* Increased robustness to occlusion: even when one marker is obscured, the virtual content is still visible.
+* Improved pose-estimation accuracy: all marker corners are used to calculate the pose, meaning that the markers effectively cover a larger optical angle, resulting in reduced numerical error.
 
+These are the same advantages 
 
 ### 2. Video 
 This can be a video or an image. 
@@ -123,17 +124,19 @@ arScene.scene.add(markerRoot);
 
 ```
 
-## Example
+## Example 
+link to codepen >>>
 
 ```javascript
 var _gltfloader = new THREE.GLTFLoader();
+var markerSet = {};
 
 arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
 
     var markerRoot = arController.createThreeMarker(markerId);
     
     // renaming the numbered markerId for easier referencing
-    mushroomMarker[markerId] = "mushroom 1";
+    markerSet[markerId] = "marker 1";
     
     // add gltf
     _gltfloader.load("/mesh/mushroom.gltf", function(gltf) {
@@ -152,6 +155,6 @@ arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
 
 
 ## References
-* [ARToolKit documentation](http://www.hitl.washington.edu/artoolkit/)
+* [ARToolKit website: hitl.washington.edu/artoolkit/](http://www.hitl.washington.edu/artoolkit/)
 
 
