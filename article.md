@@ -118,6 +118,15 @@ arController.loadMarker("/patterns/your-marker.patt", function(markerId) {
 
 ```
 
+## render function
+```javascript
+var render = function () {
+    arScene.process();
+    arScene.renderOn(renderer);
+    requestAnimationFrame(render);
+};
+render();
+```
 
 ## Example 
 
