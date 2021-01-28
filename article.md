@@ -28,38 +28,20 @@ b) rotationally asymmetric (if you put it flat on your table and rotate it 90, 1
 
 The reason that we need them to be high-contrast is because ARToolKit converts these images into 16x16 black-and-white [thresholded images](https://en.wikipedia.org/wiki/Thresholding_(image_processing)#Definition). ARToolKit will first search for a black square (border), and then examine the image to determine if the image matches our registered markers. 
 
-```javascript
-arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR );
-```
 
 #### :black_square_button: Square Barcode markers
 Barcode markers encode a number on a black-and-white marker using binary code. They don't require pre-registering and use little CPU. Think of them as low-res QR codes.
 They work like pattern markers: ARToolKit reads thresholded image data from the marker, converts into binary, and converts the bits into a number. 
 These are easier to use than pattern markers, all you need is to set the `arController`'s pattern detection mode to one of the barcode detection modes and check the idMatrix attribute of the marker object.
 
-```javascript
-arController.setPatternDetectionMode( artoolkit.AR_MATRIX_CODE_DETECTION );
-```
-
 
 #### :black_square_button: Mixed-mode tracking
 With mixed-mode tracking, we can track both pattern and barcode markers. There is slightly more room for error because some pattern markers can be mistaken for barcode markers.
 
-```javascript
-arController.setPatternDetectionMode( artoolkit.AR_TEMPLATE_MATCHING_COLOR_AND_MATRIX );
-```
 
 #### :black_square_button: Multi-marker tracking
 This is a combination of square image markers and barcode markers. With `loadMultiMarker`, we can have several markers printed on a single flat surface, which lets you track the surface even if some of the markers are not visible. 
 Another advantage is that you can put small markers around a non-marker content and for the non-marker to behave like a marker. For example, if we have a map printed on a piece of paper and have small markers printed around it, you can place your AR content on top of the map and it'll work as long as any of the multimarker images are visible.
-
-```javascript
-//load multiMarker
-arController.loadMultiMarker('/patterns/multi-marker.dat', function(markerId, markerNum) {
-    console.log(markerId, markerNum);
-}
-
-```
 
 Some of the benefits of multimarkers include: 
 * Increased robustness to occlusion: even when one marker is obscured, the virtual content is still visible.
@@ -93,7 +75,7 @@ The `onSuccess` callback in the `options` object gets called with a ready-to-use
 Three.js is a lightweight cross-browser Javascript library/API used to create and display animated 3D computer graphics on a Web browser. Three.js scripts may be used in conjunction with the HTML5 canvas element, SVG or WebGL. 
 
 
-## :heavy_plus_sign: To load JSARToolKit and Three.js, include these two minified scripts into your webpage
+## :heavy_plus_sign: To load JSARToolKit and Three.js, first include these two minified scripts into your webpage:
 ```javascript
 <script src="build/artoolkit.min.js"></script>
 <script src="js/artoolkit.three.js"></script>
@@ -107,51 +89,37 @@ We do this by adding an event listener to listen to `getMarker` events on the `a
 Whenever the `arController` detects a marker, it fires a `getMarker` event with the marker details. 
 
 ```javascript
-arController.addEventListener('getMarker', function(ev) {
-    console.log("getMarker", ev.data.marker.id);
+arController.addEventListener("getMarker", function(ev) {
+    console.log("detected marker with marker id: ", ev.data.marker.id);
 }
 ```
 
-## Applying marker positions to `markerRoot`
-Now that we have the **marker positions**, we can apply these to a [Three.js object](https://threejs.org/docs/#api/en/core/Object3D.matrix). 
+## loading the markers and applying marker positions to `markerRoot`
+With the **marker positions**, we can apply these to a [Three.js object](https://threejs.org/docs/#api/en/core/Object3D.matrix) we call `markerRoot`.
+Then we add it to `arScene `.
 
 ```javascript
-// markerRoot is a THREE.Object3D that tracks the marker position
-var markerRoot = arController.createThreeMultiMarker(markerId);
+// create a sphere in Three.js
+var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 8, 8),
+    new THREE.MeshNormalMaterial()
+);
 
-// add markerRoot to the AR scene
-arScene.scene.add(markerRoot);
-
-```
-
-## Example 
-link to codepen >>>
-
-```javascript
-var _gltfloader = new THREE.GLTFLoader();
-var markerSet = {};
-
-arController.loadMarker("/patterns/marker-1.patt", function(markerId) {
+// loads a single pattern marker
+arController.loadMarker("/patterns/your-marker.patt", function(markerId) {
 
     var markerRoot = arController.createThreeMarker(markerId);
     
-    // renaming the numbered markerId for easier referencing
-    markerSet[markerId] = "marker 1";
+    markerRoot.add(sphere);
     
-    // add gltf
-    _gltfloader.load("/mesh/mushroom.gltf", function(gltf) {
-        
-        // configure gltf.scene, for example
-        gltf.scene.scale.set(3,3,3);
-        
-        // add the scene to markerRoot
-        markerRoot.add(gltf.scene);
-    });
+    arScene.scene.add(markerRoot);;;;;;;
     
-    // add it to our global arScene
-    arScene.scene.add(markerRoot);
-});
+}
+
 ```
+
+
+## Example 
 
 
 ## References
